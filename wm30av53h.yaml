@@ -1,0 +1,564 @@
+esphome:
+  name: wm30av53h
+  friendly_name: WM30AV53H
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+    baud_rate: 0
+
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "LQCAO4CkyYV+0hAyl5SrPE+mG2o7g+flnhPHT1VFuYQ="
+
+ota:
+  - platform: esphome
+    password: "Qwertyui1"
+
+wifi:
+  ssid: LENOV
+  password: Qwertyui1
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Wm30Av53H Fallback Hotspot"
+    password: "Qwertyui1"
+
+captive_portal:
+
+uart:
+  - id: mod_bus_dts
+    rx_pin:  GPIO1 # TX
+    tx_pin: GPIO3  # RX
+    baud_rate: 115200
+    stop_bits: 1
+
+modbus:
+
+  - id: modbus_dts
+    send_wait_time: 250ms
+
+modbus_controller:
+  - id: WM30
+    ## the Modbus device addr
+    address: 0x0001
+    modbus_id: modbus_dts
+    command_throttle: 200ms
+    setup_priority: -10
+    update_interval: 5s
+
+sensor:
+
+#1#300081#0050
+  - platform: modbus_controller
+    id: V_L1_N_WM30
+    name: "V L1-N"
+    state_class: measurement
+    device_class: voltage
+    register_type: read
+    address: 0x0050
+    unit_of_measurement: "V"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#2#300083#0052
+  - platform: modbus_controller
+    id: V_L2_N_WM30
+    name: "V L2-N"
+    state_class: measurement
+    device_class: voltage
+    register_type: read
+    address: 0x0052
+    unit_of_measurement: "V"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#3#300085#0054
+  - platform: modbus_controller
+    id: V_L3_N_WM30
+    name: "V L3-N"
+    state_class: measurement
+    device_class: voltage
+    register_type: read
+    address: 0x0054
+    unit_of_measurement: "V"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#4#300097#0060
+  - platform: modbus_controller
+    id: A_L1_WM30
+    name: "A L1"
+    state_class: measurement
+    device_class: current
+    register_type: read
+    address: 0x0060
+    unit_of_measurement: "A"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#5#300099#0062
+  - platform: modbus_controller
+    id: A_L2_WM30
+    name: "A L2"
+    state_class: measurement
+    device_class: current
+    register_type: read
+    address: 0x0062
+    unit_of_measurement: "A"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#6#300101#0064
+  - platform: modbus_controller
+    id: A_L3_WM30
+    name: "A L3"
+    state_class: measurement
+    device_class: current
+    register_type: read
+    address: 0x0064
+    unit_of_measurement: "A"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#7#300105#0068
+  - platform: modbus_controller
+    id: W_L1_WM30
+    name: "W L1"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x0068
+    unit_of_measurement: "W"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#8#300107#006A
+  - platform: modbus_controller
+    id: W_L2_WM30
+    name: "W L2"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x006A
+    unit_of_measurement: "W"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#9#300109#006C
+  - platform: modbus_controller
+    id: W_L3_WM30
+    name: "W L3"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x006C
+    unit_of_measurement: "W"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#10#300111#006E
+  - platform: modbus_controller
+    id: W_TOT_WM30
+    name: "W TOTAL"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x006E
+    unit_of_measurement: "W"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#11#300113#0070
+  - platform: modbus_controller
+    id: VA_L1_WM30
+    name: "VA L1"
+    state_class: measurement
+    device_class: apparent_power
+    register_type: read
+    address: 0x0070
+    unit_of_measurement: "VA"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#12#300115#0072
+  - platform: modbus_controller
+    id: VA_L2_WM30
+    name: "VA L2"
+    state_class: measurement
+    device_class: apparent_power
+    register_type: read
+    address: 0x0072
+    unit_of_measurement: "VA"
+    value_type: FP32_R
+    accuracy_decimals: 2   
+#13#300117#0074
+  - platform: modbus_controller
+    id: VA_L3_WM30
+    name: "VA L3"
+    state_class: measurement
+    device_class: apparent_power
+    register_type: read
+    address: 0x0074
+    unit_of_measurement: "VA"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#14#300119#0076
+  - platform: modbus_controller
+    id: VA_TOT_WM30
+    name: "VA TOTAL"
+    state_class: measurement
+    device_class: apparent_power
+    register_type: read
+    address: 0x0076
+    unit_of_measurement: "VA"
+    value_type: FP32_R
+    accuracy_decimals: 2   
+#15#300121#0078
+  - platform: modbus_controller
+    id: VAR_L1_WM30
+    name: "VAR L1"
+    state_class: measurement
+    device_class: reactive_power
+    register_type: read
+    address: 0x0078
+    unit_of_measurement: "var"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#16#300123#007A
+  - platform: modbus_controller
+    id: VAR_L2_WM30
+    name: "VAR L2"
+    state_class: measurement
+    device_class: reactive_power
+    register_type: read
+    address: 0x007A
+    unit_of_measurement: "var"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#17#300125#007C
+  - platform: modbus_controller
+    id: VAR_L3_WM30
+    name: "VAR L3"
+    state_class: measurement
+    device_class: reactive_power
+    register_type: read
+    address: 0x007C
+    unit_of_measurement: "var"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#18#300127#007E
+  - platform: modbus_controller
+    id: VAR_TOT_WM30
+    name: "VAR TOTAL"
+    state_class: measurement
+    device_class: reactive_power
+    register_type: read
+    address: 0x007E
+    unit_of_measurement: "var"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#19#300129#0080
+  - platform: modbus_controller
+    id: PF_L1_WM30
+    name: "PF L1"
+    state_class: measurement
+    device_class: power_factor
+    register_type: read
+    address: 0x0080
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#20#300131#0082
+  - platform: modbus_controller
+    id: PF_L2_WM30
+    name: "PF L2"
+    state_class: measurement
+    device_class: power_factor
+    register_type: read
+    address: 0x0082
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#21#300133#0084
+  - platform: modbus_controller
+    id: PF_L3_WM30
+    name: "PF L3"
+    state_class: measurement
+    device_class: power_factor
+    register_type: read
+    address: 0x0084
+    value_type: FP32_R
+    accuracy_decimals: 2   
+#22#300137#0088
+  - platform: modbus_controller
+    id: Hz_WM30
+    name: "Hz"
+    state_class: measurement
+    device_class: frequency
+    register_type: read
+    address: 0x0088
+    unit_of_measurement: "Hz"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#23#300161#00A0
+  - platform: modbus_controller
+    id: THD_TOT_VL1_N_WM30
+    name: "THD tot VL1-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00A0
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#24#300163#00A2
+  - platform: modbus_controller
+    id: THD_TOT_VL2_N_WM30
+    name: "THD tot VL2-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00A2
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#25#300165#00A4
+  - platform: modbus_controller
+    id: THD_TOT_VL3_N_WM30
+    name: "THD tot VL3-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00A4
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#26#300173#00AC
+  - platform: modbus_controller
+    id: THD_TOT_AL1_WM30
+    name: "THD tot AL1"
+    state_class: measurement
+    register_type: read
+    address: 0x00AC
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#27#300175#00AE
+  - platform: modbus_controller
+    id: THD_TOT_AL2_WM30
+    name: "THD tot AL2"
+    state_class: measurement
+    register_type: read
+    address: 0x00AE
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#28#300177#00B0
+  - platform: modbus_controller
+    id: THD_TOT_AL3_WM30
+    name: "THD tot AL3"
+    state_class: measurement
+    register_type: read
+    address: 0x00B0
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#29#300179##00B2
+  - platform: modbus_controller
+    id: THD_ODD_VL1_N__WM30
+    name: "THD odd VL1-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00B2
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#30#300181#00B4
+  - platform: modbus_controller
+    id: THD_ODD_VL2_N__WM30
+    name: "THD odd VL2-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00B4
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#31#300183##00B6
+  - platform: modbus_controller
+    id: THD_ODD_VL3_N__WM30
+    name: "THD odd VL3-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00B6
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2    
+#32#300191#00BE
+  - platform: modbus_controller
+    id: THD_ODD_AL1_WM30
+    name: "THD odd AL1"
+    state_class: measurement
+    register_type: read
+    address: 0x00BE
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#33#300193#00C0
+  - platform: modbus_controller
+    id: THD_ODD_AL2_WM30
+    name: "THD odd AL2"
+    state_class: measurement
+    register_type: read
+    address: 0x00C0
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#34#300195#00C2
+  - platform: modbus_controller
+    id: THD_ODD_AL3_WM30
+    name: "THD odd AL3"
+    state_class: measurement
+    register_type: read
+    address: 0x00C2
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#35#300197#00C4
+  - platform: modbus_controller
+    id: THD_EVEN_VL1_N__WM30
+    name: "THD even VL1-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00C4
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#36#300199#00C6
+  - platform: modbus_controller
+    id: THD_EVEN_VL2_N__WM30
+    name: "THD even VL2-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00C6
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#37#300201#00C8
+  - platform: modbus_controller
+    id: THD_EVEN_VL3_N__WM30
+    name: "THD even VL3-N"
+    state_class: measurement
+    register_type: read
+    address: 0x00C8
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#38#300209#00D0
+  - platform: modbus_controller
+    id: THD_EVEN_AL1_WM30
+    name: "THD even AL1"
+    state_class: measurement
+    register_type: read
+    address: 0x00D0
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#39#300211#00D2
+  - platform: modbus_controller
+    id: THD_EVEN_AL2_WM30
+    name: "THD even AL2"
+    state_class: measurement
+    register_type: read
+    address: 0x00D2
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2
+#40#300213#0000D4
+  - platform: modbus_controller
+    id: THD_EVEN_AL3_WM30
+    name: "THD even AL3"
+    state_class: measurement
+    register_type: read
+    address: 0x00D4
+    unit_of_measurement: "%"
+    value_type: FP32_R
+    accuracy_decimals: 2   
+#41#301281#0500
+  - platform: modbus_controller
+    id: TOT_KWh_FWD_WM30
+    name: "Total KWh FWD"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x0500
+    unit_of_measurement: "Wh"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#42#301285#0504
+  - platform: modbus_controller
+    id: TOT_Kvarh_FWD_WM30
+    name: "Total Kvarh FWD"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x0504
+    unit_of_measurement: "varh"
+    value_type: FP32_R
+    accuracy_decimals: 2  
+#43#301289#0508
+  - platform: modbus_controller
+    id: TOT_KWh_REV_WM30
+    name: "Total KWh REV"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x0508
+    unit_of_measurement: "Wh"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#44#301293#050C
+  - platform: modbus_controller
+    id: TOT_Kvarh_REV_WM30
+    name: "Total Kvarh REV"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x050C
+    unit_of_measurement: "varh"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#45#301297#0510
+  - platform: modbus_controller
+    id: PART_KWh_FWD_WM30
+    name: "Partial KWh FWD"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x0510
+    unit_of_measurement: "Wh"
+    value_type: FP32_R
+    accuracy_decimals: 2      
+#46#301301#0514
+  - platform: modbus_controller
+    id: PART_Kvarh_FWD_WM30
+    name: "Partial Kvarh FWD"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x0514
+    unit_of_measurement: "varh"
+    value_type: FP32_R
+    accuracy_decimals: 2 
+#47#301305#0518
+  - platform: modbus_controller
+    id: PART_KWh_REV_WM30
+    name: "Partial KWh REV"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x0518
+    unit_of_measurement: "Wh"
+    value_type: FP32_R
+    accuracy_decimals: 2      
+#48#301309#051C
+  - platform: modbus_controller
+    id: PART_Kvarh_REV_WM30
+    name: "Partial Kvarh REV"
+    state_class: measurement
+    device_class: power
+    register_type: read
+    address: 0x051C
+    unit_of_measurement: "varh"
+    value_type: FP32_R
+    accuracy_decimals: 2     
